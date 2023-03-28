@@ -59,6 +59,8 @@ export async function fetchGameData () {
         const versionData = await res.json() as versionAPIResponse
         if (initialFetch || versionData.version !== currVersion) {
             await promises.writeFile(path.join(gameDataDir, 'version.json'), JSON.stringify(versionData));
+            await promises.writeFile(path.join(__dirname, '..', '..', 'src', 'assets', 'gamedata', 'version.json'), JSON.stringify(versionData));
+            
             const resGD = await fetch(versionData.url);
             if (!resGD.ok) throw new Error(`Got Status: ${res.status} while fetching GameData`);
             const buffer = Buffer.from(await resGD.arrayBuffer());
