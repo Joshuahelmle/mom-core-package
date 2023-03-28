@@ -22,18 +22,18 @@ export interface GameDataInput {
 
 
 export interface GameDataRecipe {
-    activeWhen: string | null,
+    activeWhen?: string | null,
     canHire: boolean,
     category: string,
     cooldownSeconds: number,
-    description: string,
+    description?: string | null,
     durationSeconds: number,
-    hideUntil: number | null,
+    hideUntil?: number | null,
     id: string,
     image: string,
     inputs: GameDataInput[],
     keywords: string[],
-    mode: string | null,
+    mode?: string | null,
     name: string,
     outputRef: { lootTableId: string }
     outputRefConditional: outputRefConditional[],
