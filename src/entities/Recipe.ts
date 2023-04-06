@@ -45,6 +45,19 @@ export class Recipe implements IEntity {
         return this.lootTable?.getLootPercentages();
     }
 
+    public getConditionalLoot () {
+        return this.outputConditional.map(o => LOOTTABLES.find(loot => loot.internalId === o.output.lootTableId)?.getLoot());
+    }
+
+    public getConditionalLootAverage () {
+        return this.outputConditional.map(o => LOOTTABLES.find(loot => loot.internalId === o.output.lootTableId)?.getLootAverage());
+    }
+
+    public getConditionalLootPercentages () {
+        return this.outputConditional.map(o => LOOTTABLES.find(loot => loot.internalId === o.output.lootTableId)?.getLootPercentages());
+    }
+
+
     public isActiveRecipe () {
         return !this.activeWhen || !!(new GoTime(this.activeWhen).next())
     }
@@ -69,7 +82,12 @@ export class Recipe implements IEntity {
         }*/
 
 
-        return new Recipe(id, name, image, recipeInputs, outputs!, durationSeconds, description, cooldownSeconds, category, activeWhen ?? '', outputRef.lootTableId, outputRefConditional, recipients, keywords)
+        return new Recipe(id, name, image, recipeInputs, outputs!, durationSeconds, description ?? '', cooldownSeconds, category, activeWhen ?? '', outputRef.lootTableId, outputRefConditional, recipients, keywords)
+    }
+
+    public toCSV (): string {
+        return '';
+        // return ['TRUE', this.internalId, this.displayName, this.description, this.image, this.so]
     }
 
 
@@ -102,7 +120,7 @@ export class Recipe implements IEntity {
         for (const lootTable of scav.outputRefConditional) {
             const outputs = LOOTTABLES.find(loot => loot.internalId === lootTable.output.lootTableId)!;
             const name = outputs.internalId.split('_');
-            const rec = new Recipe(`${outputs.internalId}`, `${scav.name} Tier${name.pop()}`, scav.image, recipeInputs, outputs, scav.durationSeconds, scav.description, scav.cooldownSeconds, scav.category, scav.activeWhen ?? '', scav.outputRef.lootTableId, scav.outputRefConditional, scav.recipients, scav.keywords)
+            const rec = new Recipe(`${outputs.internalId}`, `${scav.name} Tier${name.pop()}`, scav.image, recipeInputs, outputs, scav.durationSeconds, scav.description ?? '', scav.cooldownSeconds, scav.category, scav.activeWhen ?? '', scav.outputRef.lootTableId, scav.outputRefConditional, scav.recipients, scav.keywords)
             recipes.push(rec);
         }
         return recipes;
