@@ -69,7 +69,7 @@ export class Recipe implements IEntity {
         }*/
 
 
-        return new Recipe(id, name, image, recipeInputs, outputs!, durationSeconds, description, cooldownSeconds, category, activeWhen, outputRef.lootTableId, outputRefConditional, recipients, keywords)
+        return new Recipe(id, name, image, recipeInputs, outputs!, durationSeconds, description, cooldownSeconds, category, activeWhen ?? '', outputRef.lootTableId, outputRefConditional, recipients, keywords)
     }
 
 
@@ -102,7 +102,7 @@ export class Recipe implements IEntity {
         for (const lootTable of scav.outputRefConditional) {
             const outputs = LOOTTABLES.find(loot => loot.internalId === lootTable.output.lootTableId)!;
             const name = outputs.internalId.split('_');
-            const rec = new Recipe(`${outputs.internalId}`, `${scav.name} Tier${name.pop()}`, scav.image, recipeInputs, outputs, scav.durationSeconds, scav.description, scav.cooldownSeconds, scav.category, scav.activeWhen, scav.outputRef.lootTableId, scav.outputRefConditional, scav.recipients, scav.keywords)
+            const rec = new Recipe(`${outputs.internalId}`, `${scav.name} Tier${name.pop()}`, scav.image, recipeInputs, outputs, scav.durationSeconds, scav.description, scav.cooldownSeconds, scav.category, scav.activeWhen ?? '', scav.outputRef.lootTableId, scav.outputRefConditional, scav.recipients, scav.keywords)
             recipes.push(rec);
         }
         return recipes;

@@ -5,7 +5,7 @@ import gameBuildings from '../assets/gamedata/buildings.json'
 import gameUpgrades from '../assets/gamedata/buildingUpgrades.json'
 
 export enum RARITY {
-    COMMON = "COMMON", UNCOMMON = "UNCOMMON", RARE = "RARE", EPIC = "EPIC", LEGENDARY = "LEGENDARY", MYTHIC = "MYTHIC"
+    COMMON = "COMMON", UNCOMMON = "UNCOMMON", RARE = "RARE", EPIC = "EPIC", LEGENDARY = "LEGENDARY", MYTHIC = "MYTHIC", SPECIAL = "SPECIAL"
 }
 
 
@@ -22,13 +22,13 @@ export interface GameDataInput {
 
 
 export interface GameDataRecipe {
-    activeWhen: string | null,
+    activeWhen?: string | null,
     canHire: boolean,
     category: string,
     cooldownSeconds: number,
     description: string,
     durationSeconds: number,
-    hideUntil: number | null,
+    hideUntil?: number | null,
     id: string,
     image: string,
     inputs: GameDataInput[],

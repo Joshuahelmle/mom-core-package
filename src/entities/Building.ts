@@ -69,6 +69,19 @@ export class Building implements IEntity {
         const slots = recipeRefs.length > 0 ? recipeRefs.filter(rr => RECIPES.filter(r => r.category === rr.id).some(r => r.duration > 0)).map(rr => rr.concurrent) : []
         return new Building(id, name, image, inv, itemId, level, thisRarity, recs, size, slots, upgrades, keywords, recipeRefs)
     }
+
+    public getTotalUpgradeStats(){
+        let baseItem = this.internalId.split('_');
+        let rarityAndLevel = baseItem.pop();
+        baseItem.push(`${rarityAndLevel?.at(0)}1`);
+
+        const upgrades = UPGRADES.filter(gdu => gdu.itemId === this.itemId && gdu.rarity === this.rarity && gdu.level <= this.level)
+        return upgrades.reduce((acc, curr) => {
+            acc.shardsRequired += curr.shardsRequired;
+            acc.upgradePrice += curr.upgradePrice
+            return acc;
+        }, {shardsRequired: 0, upgradePrice: 0, shardId: upgrades[0]?.shardId || '', baseItem: baseItem.join('_')})
+    }
 }
 
 export const UPGRADES: GameDataUpgrade[] = Object.values(GDUPGRADES);
